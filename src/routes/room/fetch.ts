@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma"
-import { FastifyReply, FastifyRequest } from "fastify";
+import { prisma } from '@/lib/prisma'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function fetch(request: FastifyRequest, reply: FastifyReply) {
   const rooms = await prisma.room.findMany()

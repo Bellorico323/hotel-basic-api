@@ -1,23 +1,23 @@
-import { prisma } from "@/lib/prisma";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
+import { prisma } from '@/lib/prisma'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createGuestSchema = z.object({
     name: z.string(),
     email: z.string().email(),
-    phone: z.number()
-  });
+    phone: z.string(),
+  })
 
   const { name, email, phone } = createGuestSchema.parse(request.body)
 
-  const newGuest = await prisma.room.create({
+  const newGuest = await prisma.guest.create({
     data: {
       name,
       email,
-      phone
-    }
-  });
+      phone,
+    },
+  })
 
-  return reply.status(201).send({ newGuest });
+  return reply.status(201).send({ newGuest })
 }
