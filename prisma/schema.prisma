@@ -8,8 +8,28 @@ datasource db {
 }
 
 model Room {
-  id            String @id @default(uuid())
+  id            String        @id @default(uuid())
   number        Int
-  pricePerNight Int    @map("price_per_night")
+  pricePerNight Int           @map("price_per_night")
   avaibility    String
+  Reservation   Reservation[]
+}
+
+model Guest {
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  phone       String
+  Reservation Reservation[]
+}
+
+model Reservation {
+  id       String   @id @default(uuid())
+  roomId   String   @map("id_quarto")
+  guestId  String   @map("id_hóspede")
+  checkIn  DateTime @map("data_checkin")
+  checkOut DateTime @map("data_checkout")
+
+  room  Room  @relation(fields: [roomId], references: [id])
+  guest Guest @relation(fields: [guestId], references: [id])
 }

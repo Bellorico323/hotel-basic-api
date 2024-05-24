@@ -1,8 +1,5 @@
 import fastify from "fastify";
-import { create } from "./routes/room/create";
-import { fetch } from "./routes/room/fetch";
-
+import { roomRoutes } from "./routes/room/routes";
 export const app = fastify()
 
-app.post('/rooms', create)
-app.get('/rooms', fetch)
+app.register(roomRoutes)
