@@ -7,7 +7,11 @@ export async function remove(request: FastifyRequest, reply: FastifyReply) {
     id: z.string(),
   })
 
-  const { id } = deleteReservationSchema.parse(request.body)
+  const { id } = deleteReservationSchema.parse(request.params)
+
+  if (!id) {
+    return reply.status(400).send({ message: 'id not included' })
+  }
 
   await prisma.reservation.delete({
     where: { id },

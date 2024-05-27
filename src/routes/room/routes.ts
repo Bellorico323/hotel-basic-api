@@ -7,7 +7,6 @@ import { FastifyInstance } from 'fastify'
 export async function roomRoutes(app: FastifyInstance) {
   app.post('/rooms', create)
   app.get('/rooms', fetch)
-
   app.put('/rooms/:id', update)
   app.delete('/rooms/:id', remove)
 }
