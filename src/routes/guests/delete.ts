@@ -7,7 +7,11 @@ export async function remove(request: FastifyRequest, reply: FastifyReply) {
     id: z.string(),
   })
 
-  const { id } = deleteGuestSchema.parse(request.body)
+  const { id } = deleteGuestSchema.parse(request.params)
+
+  if (!id) {
+    return reply.status(400).send({ message: 'id not included' })
+  }
 
   await prisma.guest.delete({
     where: { id },

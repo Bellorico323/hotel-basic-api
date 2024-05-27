@@ -20,6 +20,10 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
   const { id, roomId, guestId, checkIn, checkOut } =
     updateReservationSchema.parse(request.body)
 
+  if (!id) {
+    return reply.status(400).send({ message: 'id not included' })
+  }
+
   const updatedReservation = await prisma.reservation.update({
     where: { id },
     data: {
