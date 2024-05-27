@@ -1,13 +1,13 @@
-import { prisma } from "@/lib/prisma";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
+import { prisma } from '@/lib/prisma'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
   const updateRoomSchema = z.object({
     number: z.number().optional(),
     pricePerNight: z.number().optional(),
-    avaibility: z.string().optional()
-  });
+    avaibility: z.string().optional(),
+  })
 
   const updateRoomParamsSchema = z.object({
     id: z.string(),
@@ -19,16 +19,18 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     return reply.status(400)
   }
 
-  const { number, pricePerNight, avaibility } = updateRoomSchema.parse(request.body);
+  const { number, pricePerNight, avaibility } = updateRoomSchema.parse(
+    request.body,
+  )
 
   const updatedRoom = await prisma.room.update({
     where: { id },
     data: {
       number,
       pricePerNight,
-      avaibility
-    }
-  });
+      avaibility,
+    },
+  })
 
-  return reply.status(200).send({ updatedRoom });
+  return reply.status(200).send({ updatedRoom })
 }
