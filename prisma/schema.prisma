@@ -13,6 +13,7 @@ model Room {
   pricePerNight Int           @map("price_per_night")
   avaibility    String
   Reservation   Reservation[]
+  createdAt     DateTime      @default(now()) @map("created_at")
 }
 
 model Guest {
@@ -21,14 +22,16 @@ model Guest {
   email       String        @unique
   phone       String
   Reservation Reservation[]
+  createdAt   DateTime      @default(now()) @map("created_at")
 }
 
 model Reservation {
-  id       String   @id @default(uuid())
-  roomId   String   @map("id_quarto")
-  guestId  String   @map("id_hóspede")
-  checkIn  DateTime @map("data_checkin")
-  checkOut DateTime @map("data_checkout")
+  id        String   @id @default(uuid())
+  roomId    String   @map("id_quarto")
+  guestId   String   @map("id_hóspede")
+  checkIn   DateTime @map("data_checkin")
+  checkOut  DateTime @map("data_checkout")
+  createdAt DateTime @default(now()) @map("created_at")
 
   room  Room  @relation(fields: [roomId], references: [id])
   guest Guest @relation(fields: [guestId], references: [id])
