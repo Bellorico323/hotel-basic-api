@@ -4,7 +4,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 export async function fetch(request: FastifyRequest, reply: FastifyReply) {
   const rooms = await prisma.room.findMany({
     orderBy: {
-      createdAt: 'asc',
+      createdAt: 'desc',
     },
   })
 
