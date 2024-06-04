@@ -13,9 +13,21 @@ export async function remove(request: FastifyRequest, reply: FastifyReply) {
     return reply.status(400).send({ message: 'id not included' })
   }
 
-  await prisma.room.delete({
-    where: { id },
-  })
-
-  return reply.status(204).send()
+  try {
+    await prisma.room.delete({
+      where: { id },
+    })
+    return reply.status(204).send()
+  } catch (error) {
+    if (error instanceof Error && 'code' in error) {
+      if (error.code === 'P2003') {
+        reply.status(400).send({
+          error:
+            'Não é possível deletar o quarto, pois ele está sendo usado em reservas',
+        })
+      } else {
+        reply.status(400).send({ error: 'Bad Request ' })
+      }
+    }
+  }
 }

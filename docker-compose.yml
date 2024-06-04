@@ -5,7 +5,7 @@ services:
     container_name: hotel-basic
     image: postgres
     ports:
-      - 8000:5432
+      - 5432:5432
     environment:
       POSTGRES_USER: hotel
       POSTGRES_PASSWORD: docker
