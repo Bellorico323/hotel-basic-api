@@ -23,5 +23,14 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     },
   })
 
+  await prisma.room.update({
+    data: {
+      avaibility: 'unavailable',
+    },
+    where: {
+      id: roomId,
+    },
+  })
+
   return reply.status(201).send({ newReservation })
 }

@@ -13,9 +13,26 @@ export async function remove(request: FastifyRequest, reply: FastifyReply) {
     return reply.status(400).send({ message: 'id not included' })
   }
 
+  const reservation = await prisma.reservation.findUnique({
+    where: {
+      id,
+    },
+  })
+
   await prisma.reservation.delete({
     where: { id },
   })
+
+  if (reservation) {
+    await prisma.room.update({
+      data: {
+        avaibility: 'available',
+      },
+      where: {
+        id: reservation.roomId,
+      },
+    })
+  }
 
   return reply.status(204).send()
 }

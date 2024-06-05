@@ -29,6 +29,32 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     return reply.status(400).send({ message: 'id not included' })
   }
 
+  const reservation = await prisma.reservation.findUnique({
+    where: {
+      id,
+    },
+  })
+
+  if (reservation && roomId) {
+    await prisma.room.update({
+      data: {
+        avaibility: 'available',
+      },
+      where: {
+        id: reservation.roomId,
+      },
+    })
+
+    await prisma.room.update({
+      data: {
+        avaibility: 'unavailable',
+      },
+      where: {
+        id: roomId,
+      },
+    })
+  }
+
   const updatedReservation = await prisma.reservation.update({
     where: { id },
     data: {
